@@ -1,27 +1,14 @@
-const FACEBOOK_ACCESS_TOKEN = 'EAAFr75mEwRIBAGRZCYFZBeaKNaGnbaSihKhYKaZBBdGJaZCzmCd1qLw647P67LTKeicVTar2o1q4ZAdPwZCGciEXIZBfxbMxlBZBqmzPyOiEUZAPcZBZBd2m514wIZBhRDx7BTM7YkQXW7SFw3lRg3PIZB3AXPzV1og3fdHlJnhcxhy0NGAZDZD';
-const API_AI_TOKEN = '074dc51f16164cb990235ca2a37a984c';
+const FACEBOOK_ACCESS_TOKEN = 'EAAKfsoZCXAxEBACBjaIvID4agePR66jZBlkIXO3zd1U7UH5p09BwN6GZAslJboOao3i6zDYxHRt0Xw6oe7XJbZBHK5ZC4syZBZBDdYsCeVtkDDD0Kv3OjYRBHO9LALihz6yKnJMiXivCeZCyovEtKKQngW7IbvzaLKrbASHGqUPiEwZDZD';
+const API_AI_TOKEN = '24ffa89ecf2e4297a34dc7900eb8d64a';
 const apiAiClient = require('apiai')(API_AI_TOKEN);
 const wsM = require('./ws_miMovistarNode.js');
 
 var FBMessenger = require('fb-messenger');
-var messenger = new FBMessenger('EAAFr75mEwRIBAFsodBiKzQ9kfhqkRDOZBhx8QYaGsbBbsmbbFoH6fFYFtrK2qXEsw9cgusPvoLDna6NpUByjGLiIOyaDjbVde9x0Qsm0E9l8m7YZAvUZBwNYINfk4ZB7pmR7ZADBLQFIfNrEKBbBxHZAnS4XJZC5fljl1W8OH9YzAZDZD');
+var messenger = new FBMessenger(FACEBOOK_ACCESS_TOKEN);
 
 const request = require('request');
 
-const checkWhiteList = (senderId) => {
-   request({
-        url: 'https://graph.facebook.com/v2.6/me/messenger_profile',
-        qs: { access_token: FACEBOOK_ACCESS_TOKEN },
-        method: 'POST',
-        json: {
-				"setting_type": "domain_whitelisting",
-				"whitelisted_domains": ["https://e84ea710.ngrok.io"],
-				"domain_action_type": "add"
-			}
-    });
-};
-
-	const quickReplies =[
+	const quickRepliesLogin =[
       {
         "content_type":"text",
         "title":"Consultar mi saldo",
@@ -42,9 +29,6 @@ const checkWhiteList = (senderId) => {
 module.exports = (event) => {
 	
 	const senderId = event.sender.id;
-	checkWhiteList(senderId);
-
-	
 
 	if(event.account_linking.status === "linked"){
 	
@@ -64,13 +48,12 @@ module.exports = (event) => {
 				}
 
 			var indicaciones = "\nPresiona una de las opciones o escribe lo que deseas hacer";
-			messenger.sendQuickRepliesMessage(senderId,userpi+indicaciones, quickReplies,"REGULAR", function (err, body) {
+			messenger.sendQuickRepliesMessage(senderId,userpi+indicaciones,quickRepliesLogin,"REGULAR", function (err, body) {
 			if (err) return console.error(err)
 			});
 			
 		}		
 		});
-		//Se envía las opciones disponibles para el usuario	
 	 }	
 		else{
 			messenger.sendTextMessage(senderId,"Vuelve pronto!! :)");

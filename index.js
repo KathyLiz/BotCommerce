@@ -20,7 +20,6 @@ app.get('/authorize', function (req, res) {
 	if (username === 'true')
 		{
 			var redirectUri = redireccionURL +'?account_linking_token='+accountLinkingToken+ '&authorization_code=' + celular;
-			console.log ("entró al TRUE ");
 			res.redirect(redirectUri);
 		}
 	else if(username === 'false')
@@ -30,8 +29,7 @@ app.get('/authorize', function (req, res) {
 			res.redirect(redirectUri);
 		}
 	
-	console.log("ESTE ES EL CELULAR =>",celular);
- 
+	console.log("ESTE ES EL CELULAR =>",celular); 
 });
 
 app.get('*', function(req, res) {  
@@ -41,7 +39,7 @@ app.get('*', function(req, res) {
 app.get('/', verificationController);
 app.post('/', messageWebhookController);
 
-app.listen(5000, () => console.log('El servidor está escuchando en el puerto 5000'));
+app.listen(3000, () => console.log('El servidor está escuchando en el puerto 3000'));
 
 
 
