@@ -63,7 +63,7 @@ s_encuesta.prototype.servicioEncuesta = function() {
         } else if (parseInt(number,10) > 0 && parseInt(number,10) < 6 && valorServicio === null) {
             valorServicio = number;
             //registroDB();
-            messenger.sendTextMessage(senderId,"Gracias por tu tiempo. Adiós! :D ");
+            messenger.sendTextMessage(senderId,"Gracias por tu tiempo. Estaremos gustosos de ayudarte! :D ");
             valorAtencion = null;
             valorServicio = null;
         } else {
