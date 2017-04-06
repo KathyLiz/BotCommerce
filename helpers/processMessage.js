@@ -37,9 +37,11 @@ processMessage.prototype.setMensaje = function (mensaje) {
 };
 
 processMessage.prototype.procesarMensaje = function (login, celular, sender) {
+    
     celular1 = celular;
     const senderId = sender;
     payload.checkWhiteList(senderId);
+    addMenuGetStarted()
     console.log(celular1);
     console.log("el texto que se va a procesar: ", this.textoProcesar);
 
