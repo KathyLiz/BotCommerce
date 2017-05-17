@@ -1,10 +1,18 @@
+const fs = require('fs');
+const https = require ('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
-
 const verificationController = require('./controllers/verification');
 const messageWebhookController = require('./controllers/messageWebhook');
+
+var credentials ={
+cert: fs.readFileSync('./bot/certificado.crt','utf8'),
+key:fs.readFileSync('./bot/server.key','utf8'),
+ca:fs.readFileSync('./bot/certificado.ca','utf8'),
+passphrase:'antena10'
+};
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,7 +20,7 @@ app.use(express.static(__dirname + '/public'));
 
 //Se toman los parámetros del formulario, se evalúa u se redirige a messenger
 app.get('/authorize', function (req, res) {
-	var celular = req.query.celular;
+	var celular = req.query.celular;	
     var username = req.query.username;	
 	var authCode="1234567890";
 	var accountLinkingToken = req.query.account_linking_token;
@@ -35,11 +43,11 @@ app.get('/authorize', function (req, res) {
 app.get('*', function(req, res) {  
     res.sendfile('./public/index.html');                
 });
-
 app.get('/', verificationController);
 app.post('/', messageWebhookController);
 
-app.listen(3000, () => console.log('El servidor está escuchando en el puerto 3000'));
+https.createServer(credentials,app)
+.listen(443, () => console.log('El servidor está escuchando en el puerto 443'));
 
 
 
